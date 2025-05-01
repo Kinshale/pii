@@ -27,9 +27,13 @@ Where:
 2. **Phase Portraits**: Visualize stability and equilibria.
 3. **Bifurcation Analysis**: Detect chaotic regimes. 
 
+<!-- Add some cool images -->
+
 ### Intuitive explanations
 The notebook provides explanations for the various components and parameters of the equation, giving insights to the model. 
 The discussion then focuses on a few noteworthy cases, with a curated analysis and commentary.
+
+<!-- Add some cool images -->
 
 ## Getting Started
 1. Clone the repository. 

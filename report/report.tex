@@ -11,6 +11,11 @@
 \usepackage{booktabs}
 \usepackage{array}
 
+\usepackage[margin=0.8in]{geometry} % Compact margins
+\usepackage{setspace} % line spacing control
+\usepackage{parskip}  % No paragraph indentation
+\usepackage{ragged2e} % Better left alignment
+
 % Code listing style
 \lstset{
     language=Python,
@@ -34,10 +39,13 @@
 }
 
 \title{Business-IT Alignment Dynamics: A Chaotic Systems Approach}
-\author{Your Name}
+\author{Alessandro Aquilini}
 \date{\today}
 
 \begin{document}
+\pagestyle{empty}
+\setstretch{1.1} % 1.1x line spacing
+\raggedright     % clean left alignmen
 
 \maketitle
 
@@ -107,6 +115,91 @@ Where:
 		\bottomrule
 	\end{tabular}
 \end{table}
+
+\subsection{Interpretation}
+Let's take a deeper look at our equation:
+
+\begin{equation}
+	x_{t + 1} = x_t + \underbrace{A(x_t)}_{\text{Environmental Pressure}} - \underbrace{B(x_t)C(x_t)}_{\text{Recovery Mechanism}}
+\end{equation}
+
+\begin{description}
+	\item[$x_t$ \textendash\ Alignment] Measures the percentage of dissatisfied users at time $t$:
+		\begin{itemize}
+			\item $0 \rightarrow$ Complete satisfaction (perfect alignment)
+			\item $1 \rightarrow$ Utter dissatisfaction (total misalignment)
+		\end{itemize}
+
+	\item[$A(x_t)$ \textendash\ Environmental Pressure:] Increases misalignment due to external factors, representing how competitive environments and technological changes increase dissatisfaction.
+
+	\item[$B(x_t) \cdot C(x_t)$ \textendash\ Recovery Mechanism:] Reduces misalignment through:
+		\begin{itemize}
+			\item $B(x_t)$: IT department's effectiveness.
+			\item $C(x_t)$: Organization's adaptability.
+		\end{itemize}
+\end{description}
+
+\subsection{Parameter Analysis}
+Full interactive simulation available at: \url{https://www.desmos.com/calculator/n55bwehjlp}
+
+\subsubsection{Environmental Pressure Function}
+\begin{equation}
+	A(x_t) = d(1 - x_t)
+\end{equation}
+
+Forms a line passing through $(1, 0)$ with slope $-d$.
+\begin{itemize}
+	\item \textbf{$d$ (dynamicity)}: Fast changing industries (e.g., a tech startup) have a competition/innovation that rapidly renders old IT systems obsolete.
+	\item \textbf{$1 - x_t$}: As misalignment grows, environmental pressure has less "room" to worsen things.
+\end{itemize}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/A(x)-desmos.png}
+	\caption{Environmental pressure function for varying $d$ values}
+\end{figure}
+
+\subsubsection{IT Department Efficacy}
+\begin{equation}
+	B(x_t) = \frac{a x_t (1 - x_t)^g}{1 + a h x_t}
+\end{equation}
+
+This looks like a function that peaks at some $x_a$ and then tapers off.
+
+\begin{itemize}
+	\item \textbf{a (IT efficacy)}: an higher a can more effectively reduce misalignment.
+	\item \textbf{x (current misalignment)}: the more misalignment exists, the more opportunity/pressure there is for IT to act.
+	\item \textbf{$(1 - x_t)^g$ (Diminishing Returns)}: as satisfaction improves, the IT department's impact diminishes.
+	      \begin{itemize}
+		      \item I haven't understood g.
+	      \end{itemize}
+	\item \textbf{$1 + ahx_t$ (Saturation)}: even if IT is highly capable (a >> 1), inflexible systems (h >> 1) limit its efficacy.
+\end{itemize}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/B(x)-desmos.png}
+	\caption{IT efficacy function showing the effect of parameters $a$, $h$, and $g$}
+\end{figure}
+
+\subsubsection{Organizational Adaptability}
+\begin{equation}
+	C(x_t) = \frac{1}{1 + z^s} \quad \text{where} \quad z = \frac{r (1 - x_t)}{x_t (1 - r)}
+\end{equation}
+
+This is a \textbf{sigmoid} function in disguise. Sigmoids are exploited for modeling "threshold behaviors".
+
+\begin{itemize}
+	\item \textbf{r (activation threshold)}: below r, the organization resists to change ($C(x) \rightarrow 0$). But when misalignment crosses a certain threshold adaptability kicks in.
+	\item \textbf{s (flexibility)}: higher s make the sigmoid steeper (sharper transition from resistance to adaptation).
+\end{itemize}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/C(x)-desmos.png}
+	\caption{Organizational adaptability function demonstrating threshold behavior}
+\end{figure}
+
 
 \section{Implementation}
 \subsection{Technological Stack}
