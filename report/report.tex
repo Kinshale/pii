@@ -1,4 +1,5 @@
-\documentclass[a4paper, 11pt]{article}
+\documentclass[a4paper, 10pt]{article}
+\usepackage[a4paper, margin=2cm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
@@ -10,32 +11,33 @@
 \usepackage{subcaption}
 \usepackage{booktabs}
 \usepackage{array}
-
-\usepackage[margin=0.8in]{geometry} % Compact margins
+\usepackage{etoolbox}
 \usepackage{setspace} % line spacing control
 \usepackage{parskip}  % No paragraph indentation
 \usepackage{ragged2e} % Better left alignment
 
-% Code listing style
-\lstset{
-    language=Python,
-    basicstyle=\ttfamily\small,
-    keywordstyle=\color{blue},
-    commentstyle=\color{green},
-    stringstyle=\color{red},
-    frame=single,
-    breaklines=true,
-    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
-}
-
-% Hyperref setup
 \hypersetup{
     colorlinks=true,
-    linkcolor=blue,
+    linkcolor=black,
     filecolor=magenta,      
-    urlcolor=cyan,
+    urlcolor=blue,
     pdftitle={Business-IT Alignment Dynamics},
     pdfpagemode=FullScreen,
+}
+
+
+\usepackage{minted}
+\usemintedstyle{xcode} 
+\usepackage{inconsolata} 
+
+\setminted{
+  frame=single,
+  framesep=10pt,
+  fontsize=\small,        
+  linenos=false,  
+  bgcolor=white,       
+  breaklines=true,
+  breakanywhere=true,
 }
 
 \title{Business-IT Alignment Dynamics: A Chaotic Systems Approach}
@@ -43,7 +45,6 @@
 \date{\today}
 
 \begin{document}
-\pagestyle{empty}
 \setstretch{1.1} % 1.1x line spacing
 \raggedright     % clean left alignmen
 
@@ -57,32 +58,23 @@
 \tableofcontents
 
 \section{Introduction}
-\subsection{Objective}
-The project aims to model Business-IT alignment dynamics using a discrete-time equation that exhibits chaotic behavior under certain parameter conditions. The primary goals are:
-
-\begin{itemize}
-	\item Develop a mathematical model of alignment evolution
-	\item Implement interactive simulations in Python
-	\item Analyze stability and chaotic regimes
-	\item Provide visual tools for parameter exploration
-\end{itemize}
-
-\subsection{Key Findings}
-\begin{itemize}
-	\item The system shows three characteristic behaviors: convergence, oscillations, and chaos
-	\item IT department efficacy ($a$) and system rigidity ($h$) have non-linear effects
-	\item Organizational flexibility ($s$) determines adaptation sharpness
-	\item Bifurcation diagrams reveal parameter regions of chaotic behavior
-\end{itemize}
-
-
-% \subsection{Usage Guide}
-% The notebook provides three main interactive features:
-% \begin{description}
-% 	\item[Time Simulation] Explore alignment evolution over time with all parameters adjustable via sliders
-% 	\item[Phase Portrait] Visualize system dynamics and equilibrium points
-% 	\item[Bifurcation Analysis] Investigate chaotic regimes by varying key parameters
-% \end{description}
+% \subsection{Objective}
+% The project aims to model Business-IT alignment dynamics using a discrete-time equation that exhibits chaotic behavior under certain parameter conditions. The primary goals are:
+%
+% \begin{itemize}
+% 	\item Develop a mathematical model of alignment evolution
+% 	\item Implement interactive simulations in Python
+% 	\item Analyze stability and chaotic regimes
+% 	\item Provide visual tools for parameter exploration
+% \end{itemize}
+%
+% \subsection{Key Findings}
+% \begin{itemize}
+% 	\item The system shows three characteristic behaviors: convergence, oscillations, and chaos
+% 	\item IT department efficacy ($a$) and system rigidity ($h$) have non-linear effects
+% 	\item Organizational flexibility ($s$) determines adaptation sharpness
+% 	\item Bifurcation diagrams reveal parameter regions of chaotic behavior
+% \end{itemize}
 
 \section{User Requirements}
 \subsection{Target Audience}
@@ -93,13 +85,13 @@ It also serves as template for modeling other complex dynamics using discrete ti
 \subsubsection{Installation}
 \begin{enumerate}
 	\item Clone the repository:
-	      \begin{lstlisting}[language=bash]
+	\begin{lstlisting}[language=bash]
 git clone https://github.com/Kinshale/pii.git
 cd pii
     \end{lstlisting}
 
 	\item Install required packages:
-	      \begin{lstlisting}[language=bash]
+	\begin{lstlisting}[language=bash]
 pip install numpy matplotlib ipywidgets
     \end{lstlisting}
 \end{enumerate}
@@ -205,7 +197,7 @@ Forms a line passing through $(1, 0)$ with slope $-d$.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\textwidth]{../images/A(x)-desmos.png}
+	\includegraphics[width=0.8\textwidth]{../images/desmos/A(x)-desmos.png}
 	\caption{Environmental pressure function for varying $d$ values}
 \end{figure}
 
@@ -228,7 +220,7 @@ This looks like a function that peaks at some $x_a$ and then tapers off.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\textwidth]{../images/B(x)-desmos.png}
+	\includegraphics[width=0.8\textwidth]{../images/desmos/B(x)-desmos.png}
 	\caption{IT efficacy function showing the effect of parameters $a$, $h$, and $g$}
 \end{figure}
 
@@ -246,7 +238,7 @@ This is a \textbf{sigmoid} function in disguise. Sigmoids are exploited for mode
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\textwidth]{../images/C(x)-desmos.png}
+	\includegraphics[width=0.8\textwidth]{../images/desmos/C(x)-desmos.png}
 	\caption{Organizational adaptability function demonstrating threshold behavior}
 \end{figure}
 
@@ -268,7 +260,7 @@ This is a \textbf{sigmoid} function in disguise. Sigmoids are exploited for mode
 \subsubsection{Simulating the equation}
 The equation is hardcoded:
 
-\begin{lstlisting}[caption=Alignment equation]
+\begin{minted}{python}
 def A(x, d):
     return d * (1 - x)
 
@@ -289,12 +281,12 @@ def simulate(x0, d, a, h, g, r, s, steps=100):
     x[0] = x0
     for t in range(steps - 1):
         x[t + 1] = np.clip(x[t] + delta(x[t], d, a, h, g, r, s), 0, 1)
-\end{lstlisting}
+\end{minted}
 
 \subsubsection{Long term behavior}
 Here is the key logic behing classifing the equation.
 
-\begin{lstlisting}[caption=Classification]
+\begin{minted}{python}
 x = simulate(x0, d, a, h, g, r, s, steps)
 
 last_values = x[-10:]
@@ -312,12 +304,12 @@ if len(np.unique(np.round(last_values, 2))) > 3:
     return x, "CHAOTIC"
 else:
     return x, "OSCILLATING"
-\end{lstlisting}
+\end{minted}
 
 \subsubsection{Phase Portrait Analysis}
 The phase space visualization algorithm:
 
-\begin{lstlisting}[caption=Phase Portrait Generation]
+\begin{minted}{python}
 def phase_portrait(d, a, h, g, r, s, n_points=200):
     x = np.linspace(0, 1, n_points)
     dx = np.array([delta(xi, d, a, h, g, r, s) for xi in x])
@@ -334,12 +326,12 @@ def phase_portrait(d, a, h, g, r, s, n_points=200):
     
     plt.plot(x, dx, 'k-')  # Main curve
     plt.axhline(0, color='black', linestyle=':')  # Zero line
-\end{lstlisting}
+\end{minted}
 
 \subsubsection{Bifurcation Analysis}
 The chaotic regime detection algorithm:
 
-\begin{lstlisting}[caption=Bifurcation Analysis]
+\begin{minted}{python}
 def bifurcation_analysis(param, p_min, p_max, fixed_params, n_points=500):
     param_values = np.linspace(p_min, p_max, n_points)
     n_transient = 200  # Skip initial transient
@@ -361,7 +353,7 @@ def bifurcation_analysis(param, p_min, p_max, fixed_params, n_points=500):
             x_vals.append(x)
         
         plt.plot([p]*n_samples, x_vals, 'k.', markersize=0.5)
-\end{lstlisting}
+\end{minted}
 
 \subsection{Numerical Considerations}
 \begin{itemize}
@@ -370,68 +362,47 @@ def bifurcation_analysis(param, p_min, p_max, fixed_params, n_points=500):
 	\item The bifurcation analysis skips 200 transient iterations to focus on long-term behavior
 	\item Phase portrait arrows are normalized to avoid cluttering
 \end{itemize}
+
 \section{Results}
-% \subsection{Time Evolution}
-% \begin{figure}[h]
-% 	\centering
-% 	% \includegraphics[width=0.8\textwidth]{}
-% 	\caption{Typical system evolution showing convergence to partial alignment}
-% \end{figure}
-%
-% The simulation identifies three terminal states:
-% \begin{itemize}
-% 	\item Aligned ($x < 0.1$)
-% 	\item Partially Aligned ($0.1 \leq x \leq 0.9$)
-% 	\item Misaligned ($x > 0.9$)
-% \end{itemize}
-%
-% \subsection{Phase Portrait}
-% \begin{figure}[h]
-% 	\centering
-% 	% \includegraphics[width=0.8\textwidth]{}
-% 	\caption{Phase portrait showing fixed points and flow directions}
-% \end{figure}
-%
-% Key observations:
-% \begin{itemize}
-% 	\item Stable fixed points occur where $dx/dt = 0$ with negative slope
-% 	\item Color intensity shows rate of change magnitude
-% 	\item Arrows indicate direction of alignment evolution
-% \end{itemize}
-%
-% \subsection{Parameter Analysis}
-% \begin{figure}[h]
-% 	\centering
-% 	% \includegraphics[width=0.8\textwidth]{}
-% 	\caption{Alignment as function of IT efficacy ($a$) and rigidity ($h$)}
-% \end{figure}
-%
-% The contour plot reveals:
-% \begin{itemize}
-% 	\item High efficacy + low rigidity → Best alignment
-% 	\item Low efficacy + high rigidity → Worst alignment
-% 	\item Non-linear interaction between parameters
-% \end{itemize}
-%
-% \subsection{Chaotic Behavior}
-% \begin{figure}[h]
-% 	\centering
-% 	% \includegraphics[width=0.8\textwidth]{}
-% 	\caption{Bifurcation diagram showing transition to chaos}
-% \end{figure}
-%
-% Chaos appears when:
-% \begin{itemize}
-% 	\item $g \approx 1.7$ with large $a$
-% 	\item Certain combinations of $d$ and $h$
-% 	\item The system undergoes period-doubling cascades
-% \end{itemize}
-%
-% \section{Original Contributions}
-% Lorem ipsum sit ...
-%
-% \section{Conclusion}
-% Lorem ipsum sit ...
+\subsection{Interactive Tools}
+The notebook provides three powerful ways to explore alignment dynamics.
+
+\subsubsection{Time Evolution Simulation}
+The time evolution simulation displays how alignment changes over successive iterations.
+You can tweak the initial condition ($x_0$), the number of iterations and all the parameters of the equation through the \textbf{sliders}.
+The diagram will update in real-time.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{../images/results/res-int-1.pdf}
+	\caption{Time evolution showing chaotic behaviour ($d = 0.5$, $a = 6$, $h = 0.4$, $g = 2$, $r = 0.25$, $s = 5$)}
+	\label{fig:time_sim}
+\end{figure}
+
+\subsubsection{Phase Portrait Analysis}
+The phase portait examines the system's underlying dynamics through multiple visual cues. Arrow directions indicate whether misalignment tends to increase or decrease at each state point, while a color gradient represents the rate of change intensity.
+
+\textbf{Note:} Stable equilibrium points occur where the curve crosses zero with a negative slope - these represent self-correcting alignment levels.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{../images/results/res-int-2.pdf}
+	\caption{Phase portrait ($d = 0.5$, $a = 2$, $h = 1$, $g = 0.5$, $r = 0.3$, $s = 3$)}
+	\label{fig:phase_portrait}
+\end{figure}
+
+\subsubsection{Bifurcation Diagram}
+Users can select any parameter for the x-axis via a dropdown menu and focus on specific ranges of interest.
+Adjust the sliders, and you may get the chacteristic period-doubling bifurcations and the emergance of chaotic behaviour.
+
+\textbf{Pro tip:} Set $h$ (IT rigidity) to a low value for observing beatiful patterns.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{../images/results/res-int-3.pdf}
+	\caption{Shouldn't this be exposed at Louvre? ($d = 0.5$, $a = 7$, $h = 0.3$, $r = 0.3$, $s = 5.1$)}
+	\label{fig:bifurcation}
+\end{figure}
 
 \section*{References}
 \begin{thebibliography}{9}
@@ -445,6 +416,7 @@ def bifurcation_analysis(param, p_min, p_max, fixed_params, n_points=500):
 	Hunter, J. D. (2007). \textit{Matplotlib: A 2D graphics environment}. Computing in science \& engineering, 9(3), 90-95.
 \end{thebibliography}
 
+\subsection{Examples}
 \appendix
 \section{Appendix: Complete Python Code}
 The full implementation is available at: \url{https://github.com/Kinshale/pii}
