@@ -15,6 +15,7 @@
 \usepackage{setspace} % line spacing control
 \usepackage{parskip}  % No paragraph indentation
 \usepackage{ragged2e} % Better left alignment
+\usepackage{floatrow}
 
 \hypersetup{
     colorlinks=true,
@@ -33,7 +34,7 @@
 \setminted{
   frame=single,
   framesep=10pt,
-  fontsize=\small,        
+  fontsize=\footnotesize,        
   linenos=false,  
   bgcolor=white,       
   breaklines=true,
@@ -116,6 +117,7 @@ For optimal experience:
 	\item Use the bifurcation tool to identify chaotic parameter regions
 \end{itemize}
 
+\clearpage
 \section{Model Description}
 \subsection{Core Equation}
 The alignment dynamics are governed by:
@@ -182,7 +184,7 @@ Let's take a deeper look at our equation:
 \end{description}
 
 \subsection{Parameter Analysis}
-Full interactive simulation available at: \url{https://www.desmos.com/calculator/n55bwehjlp}
+Full interactive simulation available at: \url{https://www.desmos.com/calculator/qdendm1pfg}
 
 \subsubsection{Environmental Pressure Function}
 \begin{equation}
@@ -194,12 +196,6 @@ Forms a line passing through $(1, 0)$ with slope $-d$.
 	\item \textbf{$d$ (dynamicity)}: Fast changing industries (e.g., a tech startup) have a competition/innovation that rapidly renders old IT systems obsolete.
 	\item \textbf{$1 - x_t$}: As misalignment grows, environmental pressure has less "room" to worsen things.
 \end{itemize}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.8\textwidth]{../images/desmos/A(x)-desmos.png}
-	\caption{Environmental pressure function for varying $d$ values}
-\end{figure}
 
 \subsubsection{IT Department Efficacy}
 \begin{equation}
@@ -218,11 +214,7 @@ This looks like a function that peaks at some $x_a$ and then tapers off.
 	\item \textbf{$1 + ahx_t$ (Saturation)}: even if IT is highly capable (a >> 1), inflexible systems (h >> 1) limit its efficacy.
 \end{itemize}
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.8\textwidth]{../images/desmos/B(x)-desmos.png}
-	\caption{IT efficacy function showing the effect of parameters $a$, $h$, and $g$}
-\end{figure}
+
 
 \subsubsection{Organizational Adaptability}
 \begin{equation}
@@ -238,11 +230,23 @@ This is a \textbf{sigmoid} function in disguise. Sigmoids are exploited for mode
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\textwidth]{../images/desmos/C(x)-desmos.png}
+	\includegraphics[width=0.5\textwidth]{../images/params/A(x).pdf}
+	\caption{Environmental pressure function for varying $d$ values}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.75\textwidth]{../images/params/B(x).pdf}
+	\caption{IT efficacy function showing the effect of parameters $a$, $h$, and $g$}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.70\textwidth]{../images/params/C(x).pdf}
 	\caption{Organizational adaptability function demonstrating threshold behavior}
 \end{figure}
 
-
+\clearpage
 \section{Implementation}
 \subsection{Technological Stack}
 \begin{itemize}
@@ -259,7 +263,6 @@ This is a \textbf{sigmoid} function in disguise. Sigmoids are exploited for mode
 \subsection{Key lines of code}
 \subsubsection{Simulating the equation}
 The equation is hardcoded:
-
 \begin{minted}{python}
 def A(x, d):
     return d * (1 - x)
@@ -282,7 +285,7 @@ def simulate(x0, d, a, h, g, r, s, steps=100):
     for t in range(steps - 1):
         x[t + 1] = np.clip(x[t] + delta(x[t], d, a, h, g, r, s), 0, 1)
 \end{minted}
-
+\vspace{-3em}
 \subsubsection{Long term behavior}
 Here is the key logic behing classifing the equation.
 
@@ -305,6 +308,7 @@ if len(np.unique(np.round(last_values, 2))) > 3:
 else:
     return x, "OSCILLATING"
 \end{minted}
+\vspace{-3em}
 
 \subsubsection{Phase Portrait Analysis}
 The phase space visualization algorithm:
@@ -327,6 +331,7 @@ def phase_portrait(d, a, h, g, r, s, n_points=200):
     plt.plot(x, dx, 'k-')  # Main curve
     plt.axhline(0, color='black', linestyle=':')  # Zero line
 \end{minted}
+\vspace{-3em}
 
 \subsubsection{Bifurcation Analysis}
 The chaotic regime detection algorithm:
@@ -354,6 +359,7 @@ def bifurcation_analysis(param, p_min, p_max, fixed_params, n_points=500):
         
         plt.plot([p]*n_samples, x_vals, 'k.', markersize=0.5)
 \end{minted}
+\vspace{-3em}
 
 \subsection{Numerical Considerations}
 \begin{itemize}
@@ -363,6 +369,7 @@ def bifurcation_analysis(param, p_min, p_max, fixed_params, n_points=500):
 	\item Phase portrait arrows are normalized to avoid cluttering
 \end{itemize}
 
+\clearpage
 \section{Results}
 \subsection{Interactive Tools}
 The notebook provides three powerful ways to explore alignment dynamics.
@@ -386,7 +393,7 @@ The phase portait examines the system's underlying dynamics through multiple vis
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=1\textwidth]{../images/results/res-int-2.pdf}
+	\includegraphics[width=0.9\textwidth]{../images/results/res-int-2.pdf}
 	\caption{Phase portrait ($d = 0.5$, $a = 2$, $h = 1$, $g = 0.5$, $r = 0.3$, $s = 3$)}
 	\label{fig:phase_portrait}
 \end{figure}

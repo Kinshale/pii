@@ -240,10 +240,119 @@ def bifurcation_diagram(b_param, b_min, b_max, fixed_params, n_points=700):
     )
     plt.show()
 
-bifurcation_diagram(
-    b_param='g',
-    b_min=1.20,
-    b_max=2.5,
-    fixed_params={'d': 0.5, 'a': 7, 'h': 0.3, 'r': 0.3, 's': 5.1},  # Must match delta()'s expected keys
-    n_points=700
+# bifurcation_diagram(
+#     b_param='g',
+#     b_min=1.20,
+#     b_max=2.5,
+#     fixed_params={'d': 0.5, 'a': 7, 'h': 0.3, 'r': 0.3, 's': 5.1},  # Must match delta()'s expected keys
+#     n_points=700
+# )
+
+# =================== A(x) ===================
+x = np.linspace(0, 1, 100)
+d_values = [0.5, 1, 1.5]
+plt.figure(figsize=(8, 6))
+
+for d in d_values:
+    plt.plot(x, A(x, d), label=f'd = {d}')
+    
+plt.xlabel('x', fontsize=12)
+plt.ylabel('A(x) - Environmental pressure', fontsize=12)
+plt.legend(fontsize=12)
+plt.grid(True)
+
+# plt.savefig(
+#     "images/params/A(x).pdf",
+#     dpi=400,  # High resolution
+#     bbox_inches="tight",  # Avoid cropping
+#     transparent=False,  # White background
+# )
+
+plt.gca().set_aspect('equal', adjustable='box')  # Preserves scaling
+
+plt.xlim(-0.5, 1.5)
+plt.ylim(0, 1.8)
+
+# plt.show()
+
+# =================== B(x) ===================
+x = np.linspace(0, 1, 500)
+
+parameter_sets = [
+    (1, 1, 3),
+    (5, 0.5, 2),      
+    (5, 0.5, 0.3),    
+    (3, 2, 0.3)     
+]
+
+plt.figure(figsize=(8, 6))
+
+for a, h, g in parameter_sets:
+    y = B(x, a, h, g)
+    plt.plot(x, y, label=f'a={a}, h={h}, g={g}')
+
+plt.xlabel('x', fontsize=12)
+plt.ylabel('B(x) - IT Department Efficacy', fontsize=12)
+plt.legend(fontsize=10)
+plt.grid(True)
+
+plt.gca().set_aspect('equal', adjustable='box')
+
+plt.xlim(-0.25, 1.25)
+plt.ylim(0, 1.0) 
+
+plt.tight_layout()
+
+# plt.savefig(
+#     "images/params/B(x).pdf",
+#     dpi=400,  # High resolution
+#     bbox_inches="tight",  # Avoid cropping
+#     transparent=False,  # White background
+# )
+
+# plt.show()
+
+# =================== C(x) ===================
+def C(x, r, s):
+    # Vectorized computation: avoid division by zero where x=0
+    with np.errstate(divide='ignore', invalid='ignore'):  # Temporarily suppress divide-by-zero warnings
+        term1 = r * (1 - x)
+        term2 = (1 - r) * x
+        ratio = np.divide(term1, term2, out=np.zeros_like(term1), where=(term2 != 0))  # Safe division
+        result = 1 / (1 + ratio**s)
+    return np.where(x == 0, 0, result)  # Explicitly set C(0) = 0
+
+x = np.linspace(0, 1, 500)
+
+parameter_sets = [
+    (0.5, 1),
+    (0.5, 5),   
+    (0.25, 2), 
+]
+
+plt.figure(figsize=(8, 6))
+
+for r, s in parameter_sets:
+    y = C(x, r, s)
+    plt.plot(x, y, label=f'r={r}, s={s}')
+
+plt.xlabel('x', fontsize=12)
+plt.ylabel('C(x) - Organizational Adaptability', fontsize=12)
+plt.legend(fontsize=10)
+plt.grid(True)
+
+plt.gca().set_aspect('equal', adjustable='box')
+
+plt.xlim(0, 1.0)
+plt.ylim(0, 1.0) 
+
+plt.tight_layout()
+
+plt.savefig(
+    "images/params/C(x).pdf",
+    dpi=400,  # High resolution
+    bbox_inches="tight",  # Avoid cropping
+    transparent=False,  # White background
 )
+
+plt.show()
