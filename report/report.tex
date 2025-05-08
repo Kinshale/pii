@@ -4,6 +4,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{amsmath}
+\usepackage{xcolor}
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{hyperref}
@@ -41,6 +42,23 @@
   breakanywhere=true,
 }
 
+\definecolor{lightgray}{rgb}{0.95,0.95,0.95}
+
+\lstdefinestyle{bashstyle}{
+  backgroundcolor=\color{lightgray},
+  basicstyle=\ttfamily\small,
+  frame=single,
+  framerule=0pt,
+  rulecolor=\color{black},
+  xleftmargin=1em,
+  xrightmargin=1em,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space},
+  showstringspaces=false,
+  tabsize=2,
+  language=bash
+}
+
 \title{Business-IT Alignment Dynamics: A Chaotic Systems Approach}
 \author{Alessandro Aquilini}
 \date{\today}
@@ -51,15 +69,16 @@
 
 \maketitle
 
-\begin{abstract}
-	Lorem Ipsum
-	% This report investigates the dynamics of Business-IT alignment through a discrete-time chaotic model. The proposed equation captures how environmental pressures, IT department efficacy, and organizational adaptability interact to create alignment or misalignment patterns. Through numerical simulations and bifurcation analysis, we identify conditions leading to stable alignment, oscillations, and chaotic behavior.
-\end{abstract}
+% \begin{abstract}
+% 	Lorem Ipsum
+% 	% This report investigates the dynamics of Business-IT alignment through a discrete-time chaotic model. The proposed equation captures how environmental pressures, IT department efficacy, and organizational adaptability interact to create alignment or misalignment patterns. Through numerical simulations and bifurcation analysis, we identify conditions leading to stable alignment, oscillations, and chaotic behavior.
+% \end{abstract}
 
 \tableofcontents
 
 \section{Introduction}
 % \subsection{Objective}
+% Consegna: https://pii.deib.polimi.it/a-platform-for-simulation-and-analysis-of-complex-systems/s
 % The project aims to model Business-IT alignment dynamics using a discrete-time equation that exhibits chaotic behavior under certain parameter conditions. The primary goals are:
 %
 % \begin{itemize}
@@ -80,19 +99,19 @@
 \section{User Requirements}
 \subsection{Target Audience}
 This interactive notebook is designed for anyone interested in Business-IT alignment dynamics.
-It also serves as template for modeling other complex dynamics using discrete time equations in the form: $x_{t+1} = x_t + \Delta(t, \text{*args})$. The user just needs to apply a few minor customization to the code.
+It also serves as template for modeling other complex dynamics that use discrete time equations in the form of $x_{t+1} = x_t + \Delta(t, \text{*args})$. The user just needs to apply a few minor customization to the code.
 
 \subsection{Getting Started}
 \subsubsection{Installation}
 \begin{enumerate}
-	\item Clone the repository:
-	\begin{lstlisting}[language=bash]
+    \item Clone the repository:
+    \begin{lstlisting}[style=bashstyle]
 git clone https://github.com/Kinshale/pii.git
 cd pii
     \end{lstlisting}
 
-	\item Install required packages:
-	\begin{lstlisting}[language=bash]
+    \item Install required packages:
+    \begin{lstlisting}[style=bashstyle]
 pip install numpy matplotlib ipywidgets
     \end{lstlisting}
 \end{enumerate}
@@ -115,6 +134,7 @@ For optimal experience:
 	\item Start with default parameters to observe baseline behavior
 	\item Modify one parameter at a time to understand its effect
 	\item Use the bifurcation tool to identify chaotic parameter regions
+	\item Read the markdown cells
 \end{itemize}
 
 \clearpage
@@ -372,12 +392,29 @@ def bifurcation_analysis(param, p_min, p_max, fixed_params, n_points=500):
 \clearpage
 \section{Results}
 \subsection{Interactive Tools}
-The notebook provides three powerful ways to explore alignment dynamics.
+The notebook provides three powerful ways to explore alignment dynamics. 
+You can adjust the parameters of the equations through \textbf{sliders}. The diagram will update in real-time.
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{../images/results/sliders1.pdf}
+        \label{fig:sliders1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{../images/results/sliders2.pdf}
+        \label{fig:sliders2}
+    \end{subfigure}
+    \caption{Interactive sliders}
+    \label{fig:side_by_side}
+\end{figure}
 
 \subsubsection{Time Evolution Simulation}
 The time evolution simulation displays how alignment changes over successive iterations.
-You can tweak the initial condition ($x_0$), the number of iterations and all the parameters of the equation through the \textbf{sliders}.
-The diagram will update in real-time.
+You can also tweak the initial condition ($x_0$) and the number of iterations. 
 
 \begin{figure}[h]
 	\centering
@@ -391,7 +428,7 @@ The phase portait examines the system's underlying dynamics through multiple vis
 
 \textbf{Note:} Stable equilibrium points occur where the curve crosses zero with a negative slope - these represent self-correcting alignment levels.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\textwidth]{../images/results/res-int-2.pdf}
 	\caption{Phase portrait ($d = 0.5$, $a = 2$, $h = 1$, $g = 0.5$, $r = 0.3$, $s = 3$)}
@@ -404,26 +441,46 @@ Adjust the sliders, and you may get the chacteristic period-doubling bifurcation
 
 \textbf{Pro tip:} Set $h$ (IT rigidity) to a low value for observing beatiful patterns.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{../images/results/res-int-3.pdf}
+	\includegraphics[width=0.9\textwidth]{../images/results/res-int-3.pdf}
 	\caption{Shouldn't this be exposed at Louvre? ($d = 0.5$, $a = 7$, $h = 0.3$, $r = 0.3$, $s = 5.1$)}
 	\label{fig:bifurcation}
 \end{figure}
 
-\section*{References}
+\clearpage
+
+\subsection{Interesting Cases}
+
+\subsubsection{Alignment as a function of a and h}
+How variations in parameters \textbf{a} (efficiency) and \textbf{h} (rigidity) affect the long term alignment?
+
+In order to find it out I built a countour line plot, where the output is displayed both as as a color gradient and and as countour lines.	
+From that we can infer that improving efficiency (a↑) while reducing rigidity (h↓) decreases dissatisfaction, but with diminishing marginal returns. 
+This is a pattern consistent with real world IT system behavior.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.75\textwidth]{../images/int-cases/sim-1.pdf}
+	\caption{Shouldn't this be exposed at Louvre? ($d = 0.5$, $a = 7$, $h = 0.3$, $r = 0.3$, $s = 5.1$)}
+	\label{fig:countour plot}
+\end{figure}
+
+\section{Personal Reflection}
+To be written at the end of the project. 
+Some key points: Data Science master degree, I like beatiful graphs, real world application of mathematics, collaborating with a professors, learned a lot (even Latex documents).
+
 \begin{thebibliography}{9}
+	\bibitem{veritasium}
+    Veritasium. (2020, January 29). \href{https://www.veritasium.com/videos/2020/1/29/this-equation-will-change-how-you-see-the-world}{This Equation Will Change How You See the World}.
+
 	\bibitem{chaos}
 	Strogatz, S. H. (2018). \textit{Nonlinear dynamics and chaos: with applications to physics, biology, chemistry, and engineering}. CRC Press.
 
 	\bibitem{italign}
 	Luftman, J. (2003). \textit{Assessing IT/business alignment}. Information Systems Management, 20(4), 9-15.
-
-	\bibitem{pyviz}
-	Hunter, J. D. (2007). \textit{Matplotlib: A 2D graphics environment}. Computing in science \& engineering, 9(3), 90-95.
 \end{thebibliography}
 
-\subsection{Examples}
 \appendix
 \section{Appendix: Complete Python Code}
 The full implementation is available at: \url{https://github.com/Kinshale/pii}
