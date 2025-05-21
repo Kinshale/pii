@@ -18,6 +18,7 @@
 \usepackage{ragged2e} % Better left alignment
 \usepackage{floatrow}
 
+
 \hypersetup{
     colorlinks=true,
     linkcolor=black,
@@ -26,7 +27,6 @@
     pdftitle={Business-IT Alignment Dynamics},
     pdfpagemode=FullScreen,
 }
-
 
 \usepackage{minted}
 \usemintedstyle{xcode} 
@@ -76,29 +76,43 @@
 
 \tableofcontents
 
+\clearpage
+
 \section{Introduction}
-% \subsection{Objective}
-% Consegna: https://pii.deib.polimi.it/a-platform-for-simulation-and-analysis-of-complex-systems/s
-% The project aims to model Business-IT alignment dynamics using a discrete-time equation that exhibits chaotic behavior under certain parameter conditions. The primary goals are:
-%
-% \begin{itemize}
-% 	\item Develop a mathematical model of alignment evolution
-% 	\item Implement interactive simulations in Python
-% 	\item Analyze stability and chaotic regimes
-% 	\item Provide visual tools for parameter exploration
-% \end{itemize}
-%
-% \subsection{Key Findings}
-% \begin{itemize}
-% 	\item The system shows three characteristic behaviors: convergence, oscillations, and chaos
-% 	\item IT department efficacy ($a$) and system rigidity ($h$) have non-linear effects
-% 	\item Organizational flexibility ($s$) determines adaptation sharpness
-% 	\item Bifurcation diagrams reveal parameter regions of chaotic behavior
-% \end{itemize}
+The project was developed for the \textbf{``Progetto di Ingegneria Informatica''} (PII) course at \textbf{Politecnico di Milano}, a \textbf{5 ECTS} course focused on hands-on projects in \textit{Computer Engineering}, covering software development, systems modeling, and data analysis.
+
+I worked under the supervision of \textbf{Professor Fabrizio Amarilli} (Dept.\ of Management Engineering), who researches \textbf{business-IT strategic alignment}. Since complex systems often exhibit unpredictable long-term behavior, simulations are needed to study their dynamics. \newline
+My task was to create a user-friendly platform for simulating his multi-parameter, discrete-time equation. The tool lets users adjust parameters, initial conditions, and simulation settings (like time steps and exploration ranges), providing outputs in visual diagrams and numerical tables.
+
+The complete assignment track is available at: 
+\href{https://pii.deib.polimi.it/a-platform-for-simulation-and-analysis-of-complex-systems/}{A Platform for Simulation and Analysis of Complex Systems}.
+
+The main result is a \textbf{Python Notebook} with three embedded interactive tools powered by the Matplotlib engine for studying the model. Namely:
+
+\begin{enumerate}
+    \item \textit{Time Evolution Simulation}: Observe alignment trends over time
+    \item \textit{Phase Portrait Analysis}: Visualize stability and equilibrium points
+    \item \textit{Bifurcation Diagram}: Explore chaotic regimes and parameter sensitivity
+\end{enumerate}
+
+More details can be found in the \hyperref[sec:results]{results} section.
+% TODO: Fix results link.
+
+On a final note, I took a keen interest in studying the mathematics behind the fascinating field of "chaotic phenomena". 
+To enrich the user experience, I thought it would be helpful to include some explanations and add few compelling cases.
+% TODO: Maybe add emojiis?
+
+\subsubsection*{Why a Python Notebook fits this project?}
+
+\begin{itemize}
+    \item \textit{User-friendly}: Even non-coders can tweak parameters via sliders and see instant results
+    \item \textit{Shareable}: Runs anywhere (Jupyter, VS Code, Google Colab) with no setup headaches
+    \item \textit{Explanatory}: Combines code, visuals, and text explanations in one place
+\end{itemize}
 
 \section{User Requirements}
 \subsection{Target Audience}
-This interactive notebook is designed for anyone interested in Business-IT alignment dynamics.
+This interactive notebook is designed for anyone interested in Business-IT alignment dynamics. \\
 It also serves as template for modeling other complex dynamics that use discrete time equations in the form of $x_{t+1} = x_t + \Delta(t, \text{*args})$. The user just needs to apply a few minor customization to the code.
 
 \subsection{Getting Started}
@@ -136,6 +150,44 @@ For optimal experience:
 	\item Use the bifurcation tool to identify chaotic parameter regions
 	\item Read the markdown cells
 \end{itemize}
+
+\subsection{Customizing the Notebook}
+The provided notebook is designed as a \textbf{template} for simulating \textit{any} discrete-time dynamical system of the form:
+
+\begin{equation}  
+x_{t+1} = x_t + \Delta(t, \theta_1, \theta_2, \dots)  
+\end{equation}
+
+where \(\Delta(\cdot)\) is a user-defined function and \(\theta_i\) are parameters. To adapt it for a new equation, follow these steps:
+
+\subsubsection*{1. Define the Delta Function}
+Replace the \texttt{delta()} function in the \textbf{Core Code} section with your custom \(\Delta(\cdot)\). For example, to simulate the logistic map:
+
+\begin{minted}{python}
+def delta(x, r):
+    return r * x * (1 - x)  # Logistic growth
+\end{minted}
+
+\vspace{-1.5em}
+
+\subsubsection*{2. Update Parameters}
+Modify the \texttt{PARAMETERS} dictionary to include your equation's parameters (e.g., growth rate \(r\)):
+
+\begin{minted}{python}
+PARAMETERS = {
+    "r": {
+        "default": 3.2,
+        "description": "Growth rate",
+        "range": {"min": 1.0, "max": 4.0, "step": 0.01}
+    },
+    ...  # Keep other parameters (x0, steps) unchanged
+}
+\end{minted}
+
+\vspace{-1.5em}
+
+\subsubsection*{3. Adjust Visualization}
+Update the \textit{ipywidgets} sliders accordingly and the built-in tools will automatically adapt to new equations.
 
 \clearpage
 \section{Model Description}
@@ -391,6 +443,7 @@ def bifurcation_analysis(param, p_min, p_max, fixed_params, n_points=500):
 
 \clearpage
 \section{Results}
+\label{sec:results}
 \subsection{Interactive Tools}
 The notebook provides three powerful ways to explore alignment dynamics. 
 You can adjust the parameters of the equations through \textbf{sliders}. The diagram will update in real-time.
@@ -462,13 +515,15 @@ This is a pattern consistent with real world IT system behavior.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.75\textwidth]{../images/int-cases/sim-1.pdf}
-	\caption{Shouldn't this be exposed at Louvre? ($d = 0.5$, $a = 7$, $h = 0.3$, $r = 0.3$, $s = 5.1$)}
+	\caption{Contour plot}
 	\label{fig:countour plot}
 \end{figure}
 
+\clearpage
+
 \section{Personal Reflection}
 To be written at the end of the project. 
-Some key points: Data Science master degree, I like beatiful graphs, real world application of mathematics, collaborating with a professors, learned a lot (even Latex documents).
+% Some key points: Data Science master degree, I like beatiful graphs, real world application of mathematics, collaborating with a professors, learned a lot (even Latex documents).
 
 \begin{thebibliography}{9}
 	\bibitem{veritasium}
