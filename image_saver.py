@@ -249,59 +249,59 @@ def bifurcation_diagram(b_param, b_min, b_max, fixed_params, n_points=700):
 # )
 
 # =================== A(x) ===================
-x = np.linspace(0, 1, 100)
-d_values = [0.5, 1, 1.5]
-plt.figure(figsize=(8, 6))
+# x = np.linspace(0, 1, 100)
+# d_values = [0.5, 1, 1.5]
+# plt.figure(figsize=(8, 6))
 
-for d in d_values:
-    plt.plot(x, A(x, d), label=f'd = {d}')
+# for d in d_values:
+#     plt.plot(x, A(x, d), label=f'd = {d}')
     
-plt.xlabel('x', fontsize=12)
-plt.ylabel('A(x) - Environmental pressure', fontsize=12)
-plt.legend(fontsize=12)
-plt.grid(True)
+# plt.xlabel('x', fontsize=12)
+# plt.ylabel('A(x) - Environmental pressure', fontsize=12)
+# plt.legend(fontsize=12)
+# plt.grid(True)
 
-# plt.savefig(
-#     "images/params/A(x).pdf",
-#     dpi=400,  # High resolution
-#     bbox_inches="tight",  # Avoid cropping
-#     transparent=False,  # White background
-# )
+# # plt.savefig(
+# #     "images/params/A(x).pdf",
+# #     dpi=400,  # High resolution
+# #     bbox_inches="tight",  # Avoid cropping
+# #     transparent=False,  # White background
+# # )
 
-plt.gca().set_aspect('equal', adjustable='box')  # Preserves scaling
+# plt.gca().set_aspect('equal', adjustable='box')  # Preserves scaling
 
-plt.xlim(-0.5, 1.5)
-plt.ylim(0, 1.8)
+# plt.xlim(-0.5, 1.5)
+# plt.ylim(0, 1.8)
 
 # plt.show()
 
 # =================== B(x) ===================
-x = np.linspace(0, 1, 500)
+# x = np.linspace(0, 1, 500)
 
-parameter_sets = [
-    (1, 1, 3),
-    (5, 0.5, 2),      
-    (5, 0.5, 0.3),    
-    (3, 2, 0.3)     
-]
+# parameter_sets = [
+#     (1, 1, 3),
+#     (5, 0.5, 2),      
+#     (5, 0.5, 0.3),    
+#     (3, 2, 0.3)     
+# ]
 
-plt.figure(figsize=(8, 6))
+# plt.figure(figsize=(8, 6))
 
-for a, h, g in parameter_sets:
-    y = B(x, a, h, g)
-    plt.plot(x, y, label=f'a={a}, h={h}, g={g}')
+# for a, h, g in parameter_sets:
+#     y = B(x, a, h, g)
+#     plt.plot(x, y, label=f'a={a}, h={h}, g={g}')
 
-plt.xlabel('x', fontsize=12)
-plt.ylabel('B(x) - IT Department Efficacy', fontsize=12)
-plt.legend(fontsize=10)
-plt.grid(True)
+# plt.xlabel('x', fontsize=12)
+# plt.ylabel('B(x) - IT Department Efficacy', fontsize=12)
+# plt.legend(fontsize=10)
+# plt.grid(True)
 
-plt.gca().set_aspect('equal', adjustable='box')
+# plt.gca().set_aspect('equal', adjustable='box')
 
-plt.xlim(-0.25, 1.25)
-plt.ylim(0, 1.0) 
+# plt.xlim(-0.25, 1.25)
+# plt.ylim(0, 1.0) 
 
-plt.tight_layout()
+# plt.tight_layout()
 
 # plt.savefig(
 #     "images/params/B(x).pdf",
@@ -313,46 +313,99 @@ plt.tight_layout()
 # plt.show()
 
 # =================== C(x) ===================
-def C(x, r, s):
-    # Vectorized computation: avoid division by zero where x=0
-    with np.errstate(divide='ignore', invalid='ignore'):  # Temporarily suppress divide-by-zero warnings
-        term1 = r * (1 - x)
-        term2 = (1 - r) * x
-        ratio = np.divide(term1, term2, out=np.zeros_like(term1), where=(term2 != 0))  # Safe division
-        result = 1 / (1 + ratio**s)
-    return np.where(x == 0, 0, result)  # Explicitly set C(0) = 0
+# def C(x, r, s):
+#     # Vectorized computation: avoid division by zero where x=0
+#     with np.errstate(divide='ignore', invalid='ignore'):  # Temporarily suppress divide-by-zero warnings
+#         term1 = r * (1 - x)
+#         term2 = (1 - r) * x
+#         ratio = np.divide(term1, term2, out=np.zeros_like(term1), where=(term2 != 0))  # Safe division
+#         result = 1 / (1 + ratio**s)
+#     return np.where(x == 0, 0, result)  # Explicitly set C(0) = 0
 
-x = np.linspace(0, 1, 500)
+# x = np.linspace(0, 1, 500)
 
-parameter_sets = [
-    (0.5, 1),
-    (0.5, 5),   
-    (0.25, 2), 
-]
+# parameter_sets = [
+#     (0.5, 1),
+#     (0.5, 5),   
+#     (0.25, 2), 
+# ]
 
-plt.figure(figsize=(8, 6))
+# plt.figure(figsize=(8, 6))
 
-for r, s in parameter_sets:
-    y = C(x, r, s)
-    plt.plot(x, y, label=f'r={r}, s={s}')
+# for r, s in parameter_sets:
+#     y = C(x, r, s)
+#     plt.plot(x, y, label=f'r={r}, s={s}')
 
-plt.xlabel('x', fontsize=12)
-plt.ylabel('C(x) - Organizational Adaptability', fontsize=12)
-plt.legend(fontsize=10)
-plt.grid(True)
+# plt.xlabel('x', fontsize=12)
+# plt.ylabel('C(x) - Organizational Adaptability', fontsize=12)
+# plt.legend(fontsize=10)
+# plt.grid(True)
 
-plt.gca().set_aspect('equal', adjustable='box')
+# plt.gca().set_aspect('equal', adjustable='box')
 
-plt.xlim(0, 1.0)
-plt.ylim(0, 1.0) 
+# plt.xlim(0, 1.0)
+# plt.ylim(0, 1.0) 
 
-plt.tight_layout()
+# plt.tight_layout()
 
-plt.savefig(
-    "images/params/C(x).pdf",
-    dpi=400,  # High resolution
-    bbox_inches="tight",  # Avoid cropping
-    transparent=False,  # White background
-)
+# plt.savefig(
+#     "images/params/C(x).pdf",
+#     dpi=400,  # High resolution
+#     bbox_inches="tight",  # Avoid cropping
+#     transparent=False,  # White background
+# )
 
-plt.show()
+# plt.show()
+
+### CobwebPlot 
+def cobweb_plot(x0, d, a, h, g, r, s, steps):
+    fig, ax = plt.subplots(figsize=(10, 10))
+    x_values = np.linspace(0, 1, 1000)
+    delta_values = np.array([delta(x, d, a, h, g, r, s) for x in x_values])
+    
+    next_x_values = x_values + delta_values
+    
+    next_x_values = np.clip(next_x_values, 0, 1)
+    
+    ax.plot(x_values, x_values, 'k-', label='y = x')
+    
+    ax.plot(x_values, next_x_values, 'r-', label='y = x + Δ(x)')
+    
+    x_sim = np.zeros(steps)
+    x_sim[0] = x0
+    
+    for t in range(steps - 1):
+        delta_val = delta(x_sim[t], d, a, h, g, r, s)
+        x_sim[t + 1] = x_sim[t] + delta_val
+        x_sim[t + 1] = np.clip(x_sim[t + 1], 0, 1)
+    
+    for i in range(steps - 1):
+        ax.plot([x_sim[i], x_sim[i]], 
+                [x_sim[i], x_sim[i+1]], 'b-', alpha=0.5)
+        
+        ax.plot([x_sim[i], x_sim[i+1]], 
+                [x_sim[i+1], x_sim[i+1]], 'b-', alpha=0.5)
+    
+    # Mark the initial point
+    ax.plot(x_sim[0], 0, 'go', markersize=8, label='Start')
+    
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.set_xlabel('x(t)', fontsize=12)
+    ax.set_ylabel('x(t+1)', fontsize=12)
+    # ax.set_title( f'Cobweb Plot (x0={x0:.2f}, d={d:.2f}, a={a:.2f}, h={h:.2f}, g={g:.2f}, r={r:.2f}, s={s:.2f})',fontsize=12)
+    ax.legend(loc='upper left')
+    ax.grid(True)
+      
+    plt.tight_layout()
+    
+    plt.savefig(
+    "images/results/cobweb.pdf",
+        dpi=400,  # High resolution
+        bbox_inches="tight",  # Avoid cropping
+        transparent=False,  # White background
+    )
+    plt.show()
+    
+    
+cobweb_plot(0.85, 0.7, 5, 0.36, 0.60, 0.25, 2, 100)

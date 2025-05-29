@@ -16,7 +16,7 @@
 \usepackage{setspace} % line spacing control
 \usepackage{parskip}  % No paragraph indentation
 \usepackage{ragged2e} % Better left alignment
-\usepackage{floatrow}
+% \usepackage{floatrow}
 
 
 \hypersetup{
@@ -87,10 +87,11 @@ My task was to create a user-friendly platform for simulating his multi-paramete
 The complete assignment track is available at: 
 \href{https://pii.deib.polimi.it/a-platform-for-simulation-and-analysis-of-complex-systems/}{A Platform for Simulation and Analysis of Complex Systems}.
 
-The main result is a \textbf{Python Notebook} with three embedded interactive tools powered by the Matplotlib engine for studying the model. Namely:
+The main result is a \textbf{Python Notebook} with four embedded interactive tools powered by the Matplotlib engine for studying the model. Namely:
 
 \begin{enumerate}
     \item \textit{Time Evolution Simulation}: Observe alignment trends over time
+    \item \textit{Cobweb plot}: Identify periodic and chaotic behavior.
     \item \textit{Phase Portrait Analysis}: Visualize stability and equilibrium points
     \item \textit{Bifurcation Diagram}: Explore chaotic regimes and parameter sensitivity
 \end{enumerate}
@@ -445,7 +446,7 @@ def bifurcation_analysis(param, p_min, p_max, fixed_params, n_points=500):
 \section{Results}
 \label{sec:results}
 \subsection{Interactive Tools}
-The notebook provides three powerful ways to explore alignment dynamics. 
+The notebook provides four powerful ways to explore alignment dynamics. 
 You can adjust the parameters of the equations through \textbf{sliders}. The diagram will update in real-time.
 
 \begin{figure}[h!]
@@ -471,9 +472,25 @@ You can also tweak the initial condition ($x_0$) and the number of iterations.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=1\textwidth]{../images/results/res-int-1.pdf}
+	\includegraphics[width=1\textwidth]{../images/results/time-evolution.pdf}
 	\caption{Time evolution showing chaotic behaviour ($d = 0.5$, $a = 6$, $h = 0.4$, $g = 2$, $r = 0.25$, $s = 5$)}
 	\label{fig:time_sim}
+\end{figure}
+
+\subsubsection{Cobweb Plot}
+A cobweb plot visualizes the dynamics of iterative functions. 
+It traces the evolution of a sequence by stepping between the function curve and the identity line $y = x$. This diagram helps analyze stability, convergence, or divergence of fixed points in dynamical systems. 
+
+In a Lémeray (cobweb) diagram, \textit{stable fixed points} appear as shrinking staircases or inward spirals, while unstable ones grow outward.
+As the system evolves, periodic orbits emerge as closed shapes, like rectangles or loops, that repeat over multiple steps.
+In contrast, chaotic behavior fills a region densely with no repeating pattern, indicating sensitive dependence on initial conditions.
+All fixed points can be identified where the function curve intersects the diagonal $y = x$.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{../images/results/cobweb.pdf}
+	\caption{Cobweb plot ($x_0 = 0.85$, $d = 0.7$, $a = 5$, $h = 0.36$, $g = 0.6$, $r = 0.25$, $s = 2$)} % cobweb_plot(0.85, 0.7, 5, 0.36, 0.60, 0.25, 2, 100)
+	\label{fig:cobweb_plot}
 \end{figure}
 
 \subsubsection{Phase Portrait Analysis}
@@ -483,7 +500,7 @@ The phase portait examines the system's underlying dynamics through multiple vis
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{../images/results/res-int-2.pdf}
+	\includegraphics[width=0.9\textwidth]{../images/results/phase-portrait.pdf}
 	\caption{Phase portrait ($d = 0.5$, $a = 2$, $h = 1$, $g = 0.5$, $r = 0.3$, $s = 3$)}
 	\label{fig:phase_portrait}
 \end{figure}
@@ -496,7 +513,7 @@ Adjust the sliders, and you may get the chacteristic period-doubling bifurcation
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{../images/results/res-int-3.pdf}
+	\includegraphics[width=0.9\textwidth]{../images/results/big-diagram.pdf}
 	\caption{Shouldn't this be exposed at Louvre? ($d = 0.5$, $a = 7$, $h = 0.3$, $r = 0.3$, $s = 5.1$)}
 	\label{fig:bifurcation}
 \end{figure}
@@ -504,20 +521,40 @@ Adjust the sliders, and you may get the chacteristic period-doubling bifurcation
 \clearpage
 
 \subsection{Interesting Cases}
+Here's a selection of ... 
 
-\subsubsection{Alignment as a function of a and h}
-How variations in parameters \textbf{a} (efficiency) and \textbf{h} (rigidity) affect the long term alignment?
+\subsubsection{Alignment as a function of two parameters}
+Find out how variations in pairs of parameters, such as a (efficiency) and h (rigidity), affect long-term alignment.
 
-In order to find it out I built a countour line plot, where the output is displayed both as as a color gradient and and as countour lines.	
-From that we can infer that improving efficiency (a↑) while reducing rigidity (h↓) decreases dissatisfaction, but with diminishing marginal returns. 
-This is a pattern consistent with real world IT system behavior.
+To explore this, I generated \textit{contour line plots} using a custom helper function, where the output is visualized both through \textbf{color gradients} and \textbf{contour lines}.
+The x-axis represents the first parameter, and the y-axis the second. The function accepts a central value and range for each parameter, then simulates outcomes over a grid to compute equilibrium alignment levels. This visual approach allows for an intuitive understanding of how each pair of parameters influences the system’s behavior.
+
+The parameter pairs tested are: (a, h), (a, g), (h, g), and (r, s).
+
+Let’s examine the first case as an example. From the plot, we can infer that improving efficiency (a↑) while reducing rigidity (h↓) decreases dissatisfaction, albeit with diminishing marginal returns.  
+This is a pattern consistent with real-world IT system behavior.
 
 \begin{figure}[h]
-	\centering
-	\includegraphics[width=0.75\textwidth]{../images/int-cases/sim-1.pdf}
-	\caption{Contour plot}
-	\label{fig:countour plot}
+    \centering
+    \begin{minipage}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{../images/int-cases/sim-1.pdf}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{../images/int-cases/sim-2.pdf}
+    \end{minipage}
+    \par\vspace{1em}
+    \begin{minipage}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{../images/int-cases/sim-3.pdf}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{../images/int-cases/sim-4.pdf}
+    \end{minipage}
+    \caption{Contour plots showing alignment as a function of different parameter pairs.}
+    \label{fig:alignment-contour-plots}
 \end{figure}
+
 
 \clearpage
 
