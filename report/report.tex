@@ -75,10 +75,10 @@
 \clearpage
 
 \section{Introduction}
-The project was developed for the \textbf{``Progetto di Ingegneria Informatica''} (PII) course at \textbf{Politecnico di Milano}, a \textbf{5 ECTS} course focused on hands-on projects in \textit{Computer Engineering}, covering software development, systems modeling, and data analysis.
+The project was developed for the \textbf{``Progetto di Ingegneria Informatica''} (PII) course at \textbf{Politecnico di Milano}, a \textbf{5 ECTS} course focused on hands-on projects in \textit{Computer Engineering}.
 
 I worked under the supervision of \textbf{Professor Fabrizio Amarilli} (Dept.\ of Management Engineering), who researches \textbf{business-IT strategic alignment}. Since complex systems often exhibit unpredictable long-term behavior, simulations are needed to study their dynamics. \newline
-My task was to create a user-friendly platform for simulating his multi-parameter, discrete-time equation. The tool lets users adjust parameters, initial conditions, and simulation settings (like time steps and exploration ranges), providing outputs in visual diagrams and numerical tables.
+My task was to create a user-friendly platform for simulating his multi-parameter, discrete-time equation. The tool lets users adjust parameters, initial conditions, and simulation settings (like time steps and exploration ranges), providing outputs in visual diagrams.
 
 The complete assignment track is available at: 
 \href{https://pii.deib.polimi.it/a-platform-for-simulation-and-analysis-of-complex-systems/}{A Platform for Simulation and Analysis of Complex Systems}.
@@ -95,12 +95,12 @@ The main result is a \textbf{Python Notebook} with four embedded interactive too
 More details can be found in the \hyperref[sec:results]{results} section.
 
 On a final note, I took a keen interest in studying the mathematics behind the fascinating field of "chaotic phenomena". 
-To enrich the user experience, I thought it would be helpful to include some explanations and add few compelling cases.
+To enrich the user experience, I thought it would be helpful to include some explanations and add a few compelling cases.
 
 \subsubsection*{Why a Python Notebook fits this project?}
 
 \begin{itemize}
-    \item \textit{User-friendly}: Even non-coders can tweak parameters via sliders and see instant results
+    \item \textit{User-friendly}: Even non coders can tweak parameters via sliders and see instant results
     \item \textit{Shareable}: Runs anywhere (Jupyter, VS Code, Google Colab) with no setup headaches
     \item \textit{Explanatory}: Combines code, visuals, and text explanations in one place
 \end{itemize}
@@ -166,7 +166,7 @@ def delta(x, r):
 \vspace{-1.5em}
 
 \subsubsection*{2. Update Parameters}
-Modify the \texttt{PARAMETERS} dictionary to include your equation's parameters (e.g., growth rate \(r\)):
+Modify the \texttt{PARAMETERS} dictionary to include your equation's parameters (e.g. growth rate \(r\)):
 
 \begin{minted}{python}
 PARAMETERS = {
@@ -275,9 +275,6 @@ This looks like a function that peaks at some $x_a$ and then tapers off.
 	\item \textbf{a (IT efficacy)}: an higher a can more effectively reduce misalignment.
 	\item \textbf{x (current misalignment)}: the more misalignment exists, the more opportunity/pressure there is for IT to act.
 	\item \textbf{$(1 - x_t)^g$ (Diminishing Returns)}: as satisfaction improves, the IT department's impact diminishes.
-	      \begin{itemize}
-		      \item I haven't understood g.
-	      \end{itemize}
 	\item \textbf{$1 + ahx_t$ (Saturation)}: even if IT is highly capable (a >> 1), inflexible systems (h >> 1) limit its efficacy.
 \end{itemize}
 
@@ -292,7 +289,7 @@ This is a \textbf{sigmoid} function in disguise. Sigmoids are exploited for mode
 
 \begin{itemize}
 	\item \textbf{r (activation threshold)}: below r, the organization resists to change ($C(x) \rightarrow 0$). But when misalignment crosses a certain threshold adaptability kicks in.
-	\item \textbf{s (flexibility)}: higher s make the sigmoid steeper (sharper transition from resistance to adaptation).
+	\item \textbf{s (flexibility)}: higher s make the sigmoid steeper (sharper transition).
 \end{itemize}
 
 \begin{figure}[h]
@@ -370,7 +367,7 @@ elif final_val > 0.9:
 else:
     return x, "PARTIAL_ALIGNMENT"
 else:  # Dynamic state
-if len(np.unique(np.round(last_values, 2))) > 3:
+if len(np.unique(np.round(last_values, 2))) > 5:
     return x, "CHAOTIC"
 else:
     return x, "OSCILLATING"
@@ -477,11 +474,11 @@ You can also tweak the initial condition ($x_0$) and the number of iterations.
 
 \subsubsection{Cobweb Plot}
 A cobweb plot visualizes the dynamics of iterative functions. 
-It traces the evolution of a sequence by stepping between the function curve and the identity line $y = x$. This diagram helps analyze stability, convergence, or divergence of fixed points in dynamical systems. 
+It traces the evolution of a sequence by stepping between the function curve and the identity line $y = x$. This diagram helps analyze stability, convergence, or divergence. 
 
 In a Lémeray (cobweb) diagram, \textit{stable fixed points} appear as shrinking staircases or inward spirals, while unstable ones grow outward.
 As the system evolves, periodic orbits emerge as closed shapes, like rectangles or loops, that repeat over multiple steps.
-In contrast, chaotic behavior fills a region densely with no repeating pattern, indicating sensitive dependence on initial conditions.
+In contrast, chaotic behavior fills a region densely with no repeating pattern.
 All fixed points can be identified where the function curve intersects the diagonal $y = x$.
 
 \begin{figure}[H]
@@ -495,7 +492,7 @@ All fixed points can be identified where the function curve intersects the diago
 The phase portait examines the system's underlying dynamics through multiple visual cues. Arrow directions indicate whether misalignment tends to increase or decrease at each state point, while a color gradient represents the rate of change intensity.
 Phase portrait arrows are normalized to avoid cluttering.
 
-\textbf{Note:} Stable equilibrium points occur where the curve crosses zero with a negative slope - these represent self-correcting alignment levels.
+\textbf{Note:} Stable equilibrium points occur where the curve crosses zero with a negative slope.
 
 \begin{figure}[H]
 	\centering
@@ -545,7 +542,7 @@ To enhance the user experience, I've included a couple noteworthy cases encopass
 Find out how variations in pairs of parameters, such as a (efficiency) and h (rigidity), affect long-term alignment.
 
 To explore this, I generated \textit{contour line plots} using a custom helper function, where the output is visualized both through \textbf{color gradients} and \textbf{contour lines}.
-The x-axis represents the first parameter, and the y-axis the second. The function accepts a central value and range for each parameter, then simulates outcomes over a grid to compute equilibrium alignment levels. This visual approach allows for an intuitive understanding of how each pair of parameters influences the system’s behavior.
+The x-axis represents the first parameter, and the y-axis the second. The function accepts a central value and range for each parameter, then simulates outcomes over a grid to compute equilibrium alignment levels.
 
 The parameter pairs displayed below are: (a, h), (a, g), (h, g), and (r, s).
 
