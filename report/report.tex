@@ -65,15 +65,10 @@
 \date{\today}
 
 \begin{document}
-\setstretch{1.1} % 1.1x line spacing
-\raggedright     % clean left alignmen
+\setstretch{1.1}
+\raggedright 
 
 \maketitle
-
-% \begin{abstract}
-% 	Lorem Ipsum
-% 	% This report investigates the dynamics of Business-IT alignment through a discrete-time chaotic model. The proposed equation captures how environmental pressures, IT department efficacy, and organizational adaptability interact to create alignment or misalignment patterns. Through numerical simulations and bifurcation analysis, we identify conditions leading to stable alignment, oscillations, and chaotic behavior.
-% \end{abstract}
 
 \tableofcontents
 
@@ -98,11 +93,9 @@ The main result is a \textbf{Python Notebook} with four embedded interactive too
 \end{enumerate}
 
 More details can be found in the \hyperref[sec:results]{results} section.
-% TODO: Fix results link.
 
 On a final note, I took a keen interest in studying the mathematics behind the fascinating field of "chaotic phenomena". 
 To enrich the user experience, I thought it would be helpful to include some explanations and add few compelling cases.
-% TODO: Maybe add emojiis?
 
 \subsubsection*{Why a Python Notebook fits this project?}
 
@@ -451,23 +444,25 @@ def bifurcation_analysis(param, p_min, p_max, fixed_params, n_points=500):
 The notebook provides four powerful ways to explore alignment dynamics. 
 You can adjust the parameters of the equations through \textbf{sliders}, interact with \textbf{dropdowns} and even select \textbf{tabs}. The diagram will update in real-time.
 
-% TODO Update sliders images, and remove the caption.
 \begin{figure}[h!]
     \centering
     \begin{subfigure}{0.45\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{../images/results/sliders1.pdf}
+        \includegraphics[width=\linewidth]{../images/results/slid-1.pdf}
         \label{fig:sliders1}
     \end{subfigure}
     \hfill
     \begin{subfigure}{0.45\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{../images/results/sliders2.pdf}
+        \includegraphics[width=\linewidth]{../images/results/slid-2.png}
         \label{fig:sliders2}
     \end{subfigure}
-    \caption{Interactive sliders}
+    \caption{(Blurred) Interactive sliders}
     \label{fig:side_by_side}
 \end{figure}
+
+{\footnotesize \textbf{Note:} I spent a couple of hours trying to get high quality screenshots, but it's impossible. So run the notebook to see the sliders.
+}
 
 \subsubsection{Time Evolution Simulation}
 The time evolution simulation displays how alignment changes over successive iterations.
@@ -670,8 +665,33 @@ Let's take $d = 0.75$ and call \texttt{cobweb\_plot()}. Notice how messy the cob
 \clearpage
 
 \section{Personal Reflection}
-To be written at the end of the project. 
-% Some key points: Data Science master degree, I like beatiful graphs, real world application of mathematics, collaborating with a professors, learned a lot (even Latex documents).
+Let me start by saying that I absolutely loved working on this project.
+
+When I was assigned a discrete-time equation similar to the logistic map that could show different behaviors (chaotic, periodic, misaligned) depending on its initial conditions, I had only a vague idea of the underlying concepts. 
+So I spent the first two weeks watching YouTube videos and I remember thinking: \textit{“What a bizarre corner of math I’ve stumbled into”}.
+
+Once I had a solid grasp of what the equation represented and what its components meant, I started writing code. 
+Using \texttt{matplotlib} and \texttt{ipywidgets} felt like the natural choice. They’re the go-to tools for this kind of interactive visualization. 
+Honestly, coding wasn’t too difficult. Sure, I ran into some issues passing the selected parameter into the \texttt{update\_diagram\_function}, and calculating the Lyapunov exponent took some work.
+But overall, things went smoothly. 
+
+And that lack of major technical obstacles allowed me to focus on higher-level thinking which, in my opinion, is what data science should be about. 
+You shouldn’t get bogged down in arrays, lambdas and method calls; the real focus should be on exploring and interpreting numbers. 
+Because of that, I was able to experiment with sliders, explore visually stunning diagrams, test out a few interesting scenarios, and write down insights in the markdown cells as I went.
+
+I’ve just enrolled in a double master’s program in Data Science, and I genuinely believe this field is the perfect blend of mathematics and computer science. Working on this project definitely played a role in my decision.
+
+Collaborating directly with a professor was also a first for me. 
+When someone you don’t know asks you to build a feature, it becomes clear how different their expectations and perspective might be from yours. 
+It’s not always easy to satisfy the “customer”, but learning to navigate that dynamic was a valuable part of the experience.
+
+However, what fascinated me most was learning that this equation models IT-business alignment. 
+The parameters I labeled \texttt{d} and \texttt{r} — which I saw as just a sigmoid’s shape or a slope — were actually tied to company concepts like “environmental pressure” and “activation threshold.” 
+That connection between math and the real world is incredible: you can describe the world using math and predict the future just by computing some numbers.
+
+\textit{The hardest part of the project?} Screenshotting the interactive sliders. \newline
+Since they’re not Matplotlib images, you can’t just export them to PDF. And LaTeX handles \texttt{.png} and \texttt{.jpg} files in strange ways. I tried everything: AI image enhancers, command-line tools, browser screenshots, converting to HTML. Nothing worked. 
+After multiple failed attempts, I gave up. In the final report, the screenshots look a bit blurry. I guess the only real solution is to run the notebook and view the \texttt{ipywidgets} live.
 
 \begin{thebibliography}{9}
 	\bibitem{veritasium}
